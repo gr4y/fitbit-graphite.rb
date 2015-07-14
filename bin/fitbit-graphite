@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+require 'fitbit/graphite'
+require 'json'
+
+ENV['TZ'] = "UTC"
+SETTINGS_FILE = ".settings.json"
+
+start_time = Date.today.to_time.utc - 1.year
+end_time = Date.today.to_time.utc
+
+if File.exists?(SETTINGS_FILE)
+  opts = JSON.parse(File.read(SETTINGS_FILE))
+end
+
+Fitbit::Graphite::Processor::Body.new(opts).process(start_time, end_time)
+Fitbit::Graphite::Processor::Steps.new(opts).process(start_time, end_time)

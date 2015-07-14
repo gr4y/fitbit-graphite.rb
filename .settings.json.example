@@ -1,0 +1,7 @@
+{
+  "graphite_host": "127.0.0.1",
+  "graphite_port": "2003",
+  "consumer_key": "enter me here",
+  "consumer_secret": "enter me here",
+  "unit_system": "METRIC"
+}
