@@ -6,7 +6,6 @@ class Fitbit::Graphite::BaseProcessor
 
   def initialize(opts = {})
     unless opts.nil?
-      puts opts
 
       @client = Fitgem::Client.new({
         consumer_key: opts[:consumer_key], 
