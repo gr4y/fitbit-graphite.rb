@@ -8,9 +8,9 @@ class Fitbit::Graphite::BaseProcessor
     unless opts.nil?
 
       @client = Fitgem::Client.new({
-        consumer_key: opts[:consumer_key], 
-        consumer_secret: opts[:consumer_secret],
-        unit_system: opts[:unit_system]
+        consumer_key: opts['consumer_key'], 
+        consumer_secret: opts['consumer_secret'],
+        unit_system: opts['unit_system']
       })
 
       if authenticated?
@@ -19,7 +19,7 @@ class Fitbit::Graphite::BaseProcessor
         authenticate!
       end
 
-      @socket = TCPSocket.open(opts[:graphite_host], opts[:graphite_port])
+      @socket = TCPSocket.open(opts['graphite_host'], opts['graphite_port'])
 
     else
       puts "Options not set. Aborting..."
