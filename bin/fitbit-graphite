@@ -1,16 +1,39 @@
 #!/usr/bin/env ruby
 require 'fitbit/graphite'
-require 'json'
+require 'choice'
 
-ENV['TZ'] = "UTC"
-SETTINGS_FILE = ".settings.json"
-
-start_time = Date.today.to_time.utc - 1.year
-end_time = Date.today.to_time.utc
-
-if File.exists?(SETTINGS_FILE)
-  opts = JSON.parse(File.read(SETTINGS_FILE))
+Choice.options do
+  header ''
+  header 'Specific options:'
+  option :config do
+    short '-c'
+    long '--config=HOST'
+    desc 'Path to Configuration file'
+    default '.settings.json'
+  end
+  option :start_date do
+    short '-s'
+    long '--start-date=2014-01-01'
+    desc 'First day' 
+    default (Date.today.to_time - 1.year).strftime("%Y-%m-%d")
+  end
+  option :end_date do 
+    short '-e'
+    long '--end-date=2015-07-15'
+    desc 'Last day'
+    default Date.today.to_time.strftime("%Y-%m-%d")
+  end
 end
 
-Fitbit::Graphite::Processor::Body.new(opts).process(start_time, end_time)
-Fitbit::Graphite::Processor::Steps.new(opts).process(start_time, end_time)
+start_time = Date.parse(Choice[:start_date]).to_time.getutc
+end_time = Date.parse(Choice[:end_date]).to_time.getutc
+
+if File.exists?(Choice[:config])
+  opts = JSON.parse(File.read(Choice[:config]))
+  [
+    Fitbit::Graphite::Processor::Body,
+    Fitbit::Graphite::Processor::Steps
+  ].each do |proc|
+    proc.new(opts).process(start_time, end_time)
+  end
+end
