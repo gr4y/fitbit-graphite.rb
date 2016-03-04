@@ -1,5 +1,7 @@
 # Fitbit::Graphite
 
+*DEPRECATED*: This will be replaced with [github.com/gr4y/fitbit-graphite](https://github.com/gr4y/fitbit-graphite) in the future.
+
 The name of that project says it all, doesn't it? 
 It fetches some of the data from the Fitbit API and sends it to an Graphite / Carbon instance. 
 
