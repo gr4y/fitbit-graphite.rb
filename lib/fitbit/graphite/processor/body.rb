@@ -11,7 +11,7 @@ module Fitbit
                 base_date: start_date, end_date: end_date
               })
               data[key].each do |item|
-                time = Time.parse(item["dateTime"]).getutc.to_i
+                time = DateTime.parse(item["dateTime"]).new_offset(0).to_time.to_i
                 value = item["value"] || 0
                 @socket.write "fitness.#{user_id}.#{key} #{value} #{time}\n"
               end
